@@ -8,42 +8,131 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" >
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1" >
 
-        <Button
-            android:id="@+id/facebookButton"
-            
+        <LinearLayout
+            android:id="@+id/facebookLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/facebook" />
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/twitterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/twitter" />
+            <ImageView
+                android:id="@+id/facebookavatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/avatar" />
 
-        <Button
-            android:id="@+id/googleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/google" />
+            <Button
+                android:id="@+id/facebookButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/facebook" />
 
-        <Button
-            android:id="@+id/yahooButton"
+            <Button
+                android:id="@+id/facebookProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/twitterLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/yahoo" />
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/twitteravatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/avatar" />
+
+            <Button
+                android:id="@+id/twitterButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/twitter" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/googleLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/googleavatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/avatar" />
+
+            <Button
+                android:id="@+id/googleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/google" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/yahooLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/yahooavatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/avatar" />
+
+            <Button
+                android:id="@+id/yahooButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/yahoo" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/logTextView"
         android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_gravity="bottom"
-        android:layout_height="150dp"
-        android:text="Oauth log"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:text="Oauth log" />
 
 </LinearLayout>
