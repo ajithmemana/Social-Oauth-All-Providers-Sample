@@ -108,6 +108,7 @@
         android:layout_height="200dp"
         android:layout_gravity="bottom"
         android:scrollbars="vertical"
-        android:text="Oauth log" />
+       android:textColor="@android:color/holo_green_dark"
+     />
 
 </LinearLayout>

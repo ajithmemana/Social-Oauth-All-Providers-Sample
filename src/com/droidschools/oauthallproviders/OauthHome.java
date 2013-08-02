@@ -8,8 +8,10 @@ import org.brickred.socialauth.android.DialogListener;
 import org.brickred.socialauth.android.SocialAuthAdapter;
 import org.brickred.socialauth.android.SocialAuthAdapter.Provider;
 import org.brickred.socialauth.android.SocialAuthError;
+import org.brickred.socialauth.android.SocialAuthListener;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -40,9 +42,11 @@ public class OauthHome extends Activity implements OnClickListener {
 	String YAHOO = "yahoo";
 	// For logging
 	String NULLDATA = "Null data";
+	ProgressDialog mDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mDialog = new ProgressDialog(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_oauth_home);
 		initViews();
@@ -67,11 +71,11 @@ public class OauthHome extends Activity implements OnClickListener {
 			writeLog("Authorizing Yahoo");
 			authAdapter.authorize(this, Provider.YAHOO);
 		} else if (v.getId() == R.id.profileButton) {
-			writeLog("Reading Facebook Profile");
+			writeLog("Reading User Profile");
 			readProfile();
 
 		} else if (v.getId() == R.id.contactsButton) {
-			writeLog("Reading Facebook Contacts");
+			writeLog("Reading User Contacts");
 			readContacts();
 
 		}
@@ -217,40 +221,72 @@ public class OauthHome extends Activity implements OnClickListener {
 	}
 
 	public void readProfile() {
-		Profile userProfile = authAdapter.getUserProfile();
-		if (userProfile != null) {
-			writeLog("EMail: " + userProfile.getEmail());
-			writeLog("Name: " + userProfile.getDisplayName());
-			writeLog("DOB: " + userProfile.getDob());
-			writeLog("Country: " + userProfile.getCountry());
-			writeLog("Gender: " + userProfile.getGender());
-			writeLog("Language: " + userProfile.getProfileImageURL());
-			if (userProfile.getProfileImageURL() != null)
-
-				imageLoader.DisplayImage(userProfile.getProfileImageURL(), avatarImage, false);
-			log(userProfile.getProfileImageURL());
-		}
-
-		/*
-		 * Map<String, String> ContactsList = userProfile.getContactInfo();
-		 * 
-		 * for (String value : ContactsList.values()) { writeLog(value); }
-		 */
+		mDialog.show();
+		authAdapter.getUserProfileAsync(new ProfileDataListener());
 	}
 	public void readContacts() {
+		mDialog.show();
+		// List<Contact> contactList =
+		authAdapter.getContactListAsync(new ContactDataListener());
 
-		List<Contact> contactList = authAdapter.getContactList();
-		if (contactList != null) {
-			writeLog(contactList.size() + " Contacts Read");
+	}
+	private final class ContactDataListener implements SocialAuthListener<List<Contact>> {
 
-			writeLog("Logging First two");
+		@Override
+		public void onExecute(String provider, List<Contact> t) {
 
-			if (contactList.get(0) != null)
-				writeLog(contactList.get(0).getDisplayName() + ", " + contactList.get(0).getEmail());
-			if (contactList.get(1) != null)
-				writeLog(contactList.get(1).getDisplayName() + ", " + contactList.get(1).getEmail());
-		} else
-			writeLog(NULLDATA);
+			Log.d("Custom-UI", "Receiving Data");
+			List<Contact> contactsList = t;
 
+			if (contactsList != null)
+
+				if (contactsList.size() > 0) {
+					writeLog("Read " + contactsList.size() + "Contacts. Showing first 2");
+					writeLog(contactsList.size() + " Contacts Read");
+
+					writeLog("Logging First two");
+
+					if (contactsList.get(0) != null)
+						writeLog(contactsList.get(0).getDisplayName() + ", " + contactsList.get(0).getEmail());
+					if (contactsList.get(1) != null)
+						writeLog(contactsList.get(1).getDisplayName() + ", " + contactsList.get(1).getEmail());
+				} else
+					writeLog("Zero contacts found on Server");
+
+		}
+
+		@Override
+		public void onError(SocialAuthError e) {
+
+		}
+	}
+	private final class ProfileDataListener implements SocialAuthListener<Profile> {
+
+		@Override
+		public void onExecute(String provider, Profile t) {
+
+			Log.d("Custom-UI", "Receiving Data");
+			mDialog.dismiss();
+			Profile userProfile = t;
+			if (userProfile != null) {
+				writeLog("----------------------------------------------");
+				writeLog("Name: " + userProfile.getDisplayName());
+				writeLog("Email: " + userProfile.getEmail());
+				writeLog("DOB: " + userProfile.getDob());
+				writeLog("Location: " + userProfile.getLocation());
+				writeLog("Gender: " + userProfile.getGender());
+				writeLog("Language: " + userProfile.getLanguage());
+				if (userProfile.getProfileImageURL() != null)
+
+					imageLoader.DisplayImage(userProfile.getProfileImageURL(), avatarImage, false);
+				log(userProfile.getProfileImageURL());
+			}
+
+		}
+
+		@Override
+		public void onError(SocialAuthError e) {
+
+		}
 	}
 }
